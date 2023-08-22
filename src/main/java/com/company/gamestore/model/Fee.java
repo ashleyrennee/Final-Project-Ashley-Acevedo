@@ -3,6 +3,7 @@ package com.company.gamestore.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ import java.util.Objects;
 @Table(name = "fee")
 public class Fee {
 
+    @Id
     @Column(name = "product_type")
     private String product_type;
 
