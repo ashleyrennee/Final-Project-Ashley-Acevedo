@@ -1,10 +1,10 @@
 package com.company.gamestore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -19,8 +19,15 @@ public class Fee {
     private String productType;
 
     @Column(name = "fee")
-    @NotNull
+    @NotEmpty(message = "Fee must not be null nor empty.")
     private BigDecimal fee;
+
+    public Fee() {}
+
+    public Fee(String productType, BigDecimal fee) {
+        this.productType = productType;
+        this.fee = fee;
+    }
 
     public String getProductType() {
         return productType;
