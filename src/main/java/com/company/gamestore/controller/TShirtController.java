@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @RestController
 public class TShirtController {
-    //FIXME: needs to connect to service layer
     @Autowired
     TShirtRepository tShirtRepo;
 
@@ -31,12 +30,12 @@ public class TShirtController {
         return null;
     }
 
-    @GetMapping("/tshirts/{color}")
+    @GetMapping("/tshirts/color/{color}")
     public List<TShirt> getTShirtByColor(@PathVariable String color){
        return tShirtRepo.findByColor(color);
     }
 
-    @GetMapping("/tshirts/{size}")
+    @GetMapping("/tshirts/size/{size}")
     public List<TShirt> getTShirtBySize(@PathVariable String size){return tShirtRepo.findBySize(size);}
 
     @PutMapping("/tshirts")
