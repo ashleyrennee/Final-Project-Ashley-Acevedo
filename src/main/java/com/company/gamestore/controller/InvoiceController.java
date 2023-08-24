@@ -17,39 +17,29 @@ public class InvoiceController {
     // Create
     @PostMapping(path = "/invoice")
     @ResponseStatus(HttpStatus.CREATED)
-    public Invoice createInvoice(@RequestBody InvoiceViewModel invoiceViewModel) {
-        Invoice invoice = new Invoice();
-        invoice.setName(invoiceViewModel.getName());
-        invoice.setStreet(invoiceViewModel.getStreet());
-        invoice.setCity(invoiceViewModel.getCity());
-        invoice.setState(invoiceViewModel.getState());
-        invoice.setZipcode(invoiceViewModel.getZipcode());
-        invoice.setItemType(invoiceViewModel.getItemType());
-        invoice.setItemId(invoiceViewModel.getItemId());
-        invoice.setUnitPrice(invoiceViewModel.getUnitPrice());
-        invoice.setQuantity(invoiceViewModel.getQuantity());
-
-        return invoiceServiceLayer.saveInvoice(invoice);
+    public InvoiceViewModel createInvoice(@RequestBody InvoiceViewModel invoiceViewModel) {
+        return invoiceServiceLayer.saveInvoice(invoiceViewModel);
     }
 
     // Read
     @GetMapping("/invoice/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Invoice getInvoiceById(@PathVariable int id) {
+    public InvoiceViewModel getInvoiceById(@PathVariable int id) {
         return invoiceServiceLayer.getInvoiceById(id);
     }
 
     // Read All
     @GetMapping("/invoice")
     @ResponseStatus(HttpStatus.OK)
-    public List<Invoice> getAllInvoices() {
+    public List<InvoiceViewModel> getAllInvoices() {
         return invoiceServiceLayer.getAllInvoices();
     }
 
     // Find By Customer Name
     @GetMapping("invoice/name/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Invoice> findInvoicesByCustomerName(@PathVariable String name) {
+    public List<InvoiceViewModel> findInvoicesByCustomerName(@PathVariable String name) {
         return invoiceServiceLayer.findInvoicesByCustomerName(name);
     }
+
 }

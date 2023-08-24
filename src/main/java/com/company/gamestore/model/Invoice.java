@@ -1,5 +1,6 @@
 package com.company.gamestore.model;
 
+import com.company.gamestore.repository.InvoiceRepository;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -27,6 +28,8 @@ public class Invoice {
     private BigDecimal tax;
     private BigDecimal processingFee;
     private BigDecimal total;
+
+    public Invoice() {}
 
     public int getId() {
         return id;
@@ -143,7 +146,7 @@ public class Invoice {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Invoice)) return false;
         Invoice invoice = (Invoice) o;
         return id == invoice.id && itemId == invoice.itemId && quantity == invoice.quantity && Objects.equals(name, invoice.name) && Objects.equals(street, invoice.street) && Objects.equals(city, invoice.city) && Objects.equals(state, invoice.state) && Objects.equals(zipcode, invoice.zipcode) && Objects.equals(itemType, invoice.itemType) && Objects.equals(unitPrice, invoice.unitPrice) && Objects.equals(subtotal, invoice.subtotal) && Objects.equals(tax, invoice.tax) && Objects.equals(processingFee, invoice.processingFee) && Objects.equals(total, invoice.total);
     }
@@ -172,4 +175,7 @@ public class Invoice {
                 ", total=" + total +
                 '}';
     }
+
 }
+
+
