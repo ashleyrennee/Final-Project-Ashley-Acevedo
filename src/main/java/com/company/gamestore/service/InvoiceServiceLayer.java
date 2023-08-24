@@ -34,7 +34,7 @@ public class InvoiceServiceLayer {
     }
 
     @Transactional
-    public InvoiceViewModel saveInvoice(InvoiceViewModel ivm) {
+    public Invoice saveInvoice(InvoiceViewModel ivm) {
 
         Invoice invoice = new Invoice();
         invoice.setName(ivm.getName());
@@ -80,8 +80,7 @@ public class InvoiceServiceLayer {
         BigDecimal total = subtotal.add(tax).add(processingFee);
         invoice.setTotal(total);
 
-        invoiceRepository.save(invoice);
-        return buildInvoiceViewModel(invoice);
+        return invoiceRepository.save(invoice);
     }
 
     private InvoiceViewModel buildInvoiceViewModel(Invoice invoice) {
@@ -94,12 +93,7 @@ public class InvoiceServiceLayer {
         ivm.setZipcode(invoice.getZipcode());
         ivm.setItemType(invoice.getItemType());
         ivm.setItemId(invoice.getItemId());
-        ivm.setUnitPrice(invoice.getUnitPrice());
         ivm.setQuantity(invoice.getQuantity());
-        ivm.setSubtotal(invoice.getSubtotal());
-        ivm.setTax(invoice.getTax());
-        ivm.setProcessingFee(invoice.getProcessingFee());
-        ivm.setTotal(invoice.getTotal());
         return ivm;
     }
 

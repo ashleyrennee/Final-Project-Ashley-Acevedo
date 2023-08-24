@@ -17,7 +17,7 @@ public class InvoiceController {
     // Create
     @PostMapping(path = "/invoice")
     @ResponseStatus(HttpStatus.CREATED)
-    public InvoiceViewModel createInvoice(@RequestBody InvoiceViewModel invoiceViewModel) {
+    public Invoice createInvoice(@RequestBody InvoiceViewModel invoiceViewModel) {
         return invoiceServiceLayer.saveInvoice(invoiceViewModel);
     }
 
