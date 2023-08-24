@@ -34,7 +34,7 @@ public class InvoiceServiceLayer {
     }
 
     @Transactional
-    public InvoiceViewModel saveInvoice(InvoiceViewModel ivm) throws Exception {
+    public InvoiceViewModel saveInvoice(InvoiceViewModel ivm) {
 
         Invoice invoice = new Invoice();
         invoice.setName(ivm.getName());
