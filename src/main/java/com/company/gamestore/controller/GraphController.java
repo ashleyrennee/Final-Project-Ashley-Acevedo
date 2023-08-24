@@ -1,6 +1,8 @@
 package com.company.gamestore.controller;
 
+import com.company.gamestore.model.Console;
 import com.company.gamestore.model.Game;
+import com.company.gamestore.repository.ConsoleRepository;
 import com.company.gamestore.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -19,6 +21,10 @@ public class GraphController {
     @Autowired
     ConsoleRepository consoleRepository;
 
+    @QueryMapping List<Game> findAllGames() {
+        return gameRepository.findAll();
+    }
+
     @QueryMapping
     public Game findGameById(@Argument int id) {
         Optional<Game> returnVal = gameRepository.findById(id);
@@ -26,21 +32,22 @@ public class GraphController {
     }
 
     @QueryMapping
-    public List<Game> findGameByTitle(@Argument String title) {
-        List<Game> returnVal = gameRepository.findByTitle(title);
-        return returnVal.size() > 0 ? returnVal : null;
+    public List<Game> findGamesByTitle(@Argument String title) {
+        return gameRepository.findByTitle(title);
     }
 
     @QueryMapping
-    public List<Game> findGameByEsrbRating(@Argument String esrbRating) {
-        List<Game> returnVal = gameRepository.findByEsrbRating(esrbRating);
-        return returnVal.size() > 0 ? returnVal : null;
+    public List<Game> findGamesByEsrbRating(@Argument String esrbRating) {
+        return gameRepository.findByEsrbRating(esrbRating);
     }
 
     @QueryMapping
-    public List<Game> findGameByStudio(@Argument String studio) {
-        List<Game> returnVal = gameRepository.findByStudio(studio);
-        return returnVal.size() > 0 ? returnVal : null;
+    public List<Game> findGamesByStudio(@Argument String studio) {
+        return gameRepository.findByStudio(studio);
+    }
+
+    @QueryMapping List<Console> findAllConsoles() {
+        return consoleRepository.findAll();
     }
 
     @QueryMapping
@@ -50,9 +57,8 @@ public class GraphController {
     }
 
     @QueryMapping
-    public List<Console> findConsoleByManufacturer(@Argument int manufacturer) {
-        List<Console> returnVal = consoleRepository.findByManufacturer(manufacturer);
-        return returnVal.size() > 0 ? returnVal : null;
+    public List<Console> findConsolesByManufacturer(@Argument String manufacturer) {
+        return consoleRepository.findByManufacturer(manufacturer);
     }
 
 }

@@ -46,7 +46,7 @@ public class ConsoleController {
         if (resultConsole.isPresent()) {
             Console returnVal = resultConsole.get();
             Console updatedConsole = new Console(
-                returnVal.getModel(), returnVal.getManufacturer(), returnVal.getMemoryCount(),
+                returnVal.getModel(), returnVal.getManufacturer(), returnVal.getMemoryAmount(),
                     returnVal.getProcessor(), returnVal.getPrice(), returnVal.getQuantity()
             );
             updatedConsole.setId(returnVal.getId());
