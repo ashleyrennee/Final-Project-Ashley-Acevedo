@@ -52,7 +52,7 @@ public class ConsoleControllerTests {
 
     @Test
     public void shouldUpdateConsoleById() throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal(310),
+        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("310"),
                 5);
         String inputJson = mapper.writeValueAsString(console);
         mockMvc.perform(
