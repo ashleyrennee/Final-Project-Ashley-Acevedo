@@ -19,8 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
-@AutoConfigureMockMvc(addFilters = false)
+@WebMvcTest(TShirtController.class)
 public class TShirtControllerTest {
     @MockBean
     private TShirtRepository tShirtRepo;
@@ -88,7 +87,7 @@ public class TShirtControllerTest {
 
         String input = mapper.writeValueAsString(tShirt);
 
-        mockMvc.perform(post("/tshirts")
+        mockMvc.perform(put("/tshirts")
                         .content(input)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
