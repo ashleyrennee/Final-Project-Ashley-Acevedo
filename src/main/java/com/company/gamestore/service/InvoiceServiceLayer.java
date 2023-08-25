@@ -6,10 +6,8 @@ import com.company.gamestore.viewmodel.InvoiceViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +43,6 @@ public class InvoiceServiceLayer {
         invoice.setItemType(ivm.getItemType());
         invoice.setItemId(ivm.getItemId());
         invoice.setQuantity(ivm.getQuantity());
-
 
         if (invoice.getQuantity() <= 0) { return  null; }                 // Return null if invoice quantity is invalid
 
@@ -98,7 +95,7 @@ public class InvoiceServiceLayer {
 
         // Calculate the tax
         BigDecimal taxRate = taxObject.get().getRate();
-        BigDecimal tax = subtotal.multiply(taxRate);
+        BigDecimal tax = subtotal.multiply(taxRate).setScale(2, RoundingMode.HALF_UP);
         invoice.setTax(tax);
 
         // Calculate the total processing fee
@@ -111,7 +108,10 @@ public class InvoiceServiceLayer {
         BigDecimal total = subtotal.add(tax).add(processingFee);
         invoice.setTotal(total);
 
+        // Save the Invoice object in the invoice repository
         invoiceRepository.save(invoice);
+
+        // Return the Invoice View Model
         return buildInvoiceViewModel(invoice);
     }
 
