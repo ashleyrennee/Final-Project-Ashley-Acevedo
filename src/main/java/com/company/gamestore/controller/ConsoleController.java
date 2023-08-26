@@ -41,16 +41,18 @@ public class ConsoleController {
     }
     @PutMapping("/console/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateConsoleById(@PathVariable int id){
+    public void updateConsoleById(@RequestBody Console console,@PathVariable int id){
         Optional<Console> resultConsole = consoleRepository.findById(id);
         if (resultConsole.isPresent()) {
             Console returnVal = resultConsole.get();
-            Console updatedConsole = new Console(
-                returnVal.getModel(), returnVal.getManufacturer(), returnVal.getMemoryAmount(),
-                    returnVal.getProcessor(), returnVal.getPrice(), returnVal.getQuantity()
-            );
-            updatedConsole.setId(returnVal.getId());
-            consoleRepository.save(updatedConsole);
+            returnVal.setPrice(console.getPrice());
+            returnVal.setQuantity(console.getQuantity());
+            returnVal.setManufacturer(console.getManufacturer());
+            returnVal.setModel(console.getModel());
+            returnVal.setProcessor(console.getProcessor());
+            returnVal.setMemoryAmount(console.getMemoryAmount());
+            returnVal.setId(returnVal.getId());
+            consoleRepository.save(returnVal);
         }
     }
 

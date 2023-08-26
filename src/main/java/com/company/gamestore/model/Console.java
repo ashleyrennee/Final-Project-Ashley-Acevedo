@@ -3,8 +3,7 @@ package com.company.gamestore.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -27,16 +26,17 @@ public class Console implements Serializable {
 
     @Column(name = "memory_amount")
     @NotEmpty(message = "You must provide a memory amount")
-    @Size(max = 20, message = "Maximum of 20 characters")
+    @Size(min = 1, max = 20, message = "Maximum of 20 characters")
     private String memoryAmount;
     @NotEmpty(message = "You must provide a processor")
-    @Size(max = 20, message = "Maximum of 20 characters")
+    @Size(min=1, max = 20, message = "Maximum of 20 characters")
     private String processor;
 
-    @NotEmpty(message = "You must provide a processor")
-    @Size(min = 2, max = 5, message = "Price must be between 2 and 5 characters")
+     @NotNull(message = "You must provide a price")
+     @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 5, fraction = 2)
     private BigDecimal price;
-    @NotEmpty(message = "You must provide a processor")
+    @NotNull(message = "You must provide a quantity")
     private int quantity;
 
     public Console(){}

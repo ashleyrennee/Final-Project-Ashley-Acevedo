@@ -52,7 +52,7 @@ public class ConsoleControllerTests {
 
     @Test
     public void shouldUpdateConsoleById() throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal(310),
+        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("310"),
                 5);
         String inputJson = mapper.writeValueAsString(console);
         mockMvc.perform(
@@ -77,5 +77,21 @@ public class ConsoleControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldReturn422Error() throws Exception{
+        Console console = new Console();
+        String inputJson = mapper.writeValueAsString(console);
+        mockMvc.perform(
+                post("/console").contentType(MediaType.APPLICATION_JSON)
+                        .content(inputJson)
+        ).andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void shouldReturn5xxError() throws Exception{
+
     }
 }

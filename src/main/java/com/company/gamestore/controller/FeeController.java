@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -16,7 +17,7 @@ public class FeeController {
 
     @PostMapping(path = "/fee")
     @ResponseStatus(HttpStatus.CREATED)
-    public Fee addFee(@RequestBody Fee fee) {
+    public Fee addFee(@RequestBody @Valid Fee fee) {
         return feeRepository.save(fee);
     }
 

@@ -1,11 +1,13 @@
 package com.company.gamestore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -20,7 +22,9 @@ public class Tax {
     private String state;
 
     @Column(name = "rate")
-    @NotEmpty(message = "Rate must not be null nor empty.")
+    @NotNull(message = "Rate must not be null nor empty.")
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 8, fraction = 2)
     private BigDecimal rate;
 
     public Tax() {}
