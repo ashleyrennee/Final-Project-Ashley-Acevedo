@@ -52,40 +52,62 @@ public class InvoiceServiceLayer {
         if (invoice.getItemType().equalsIgnoreCase("Game")) {
 
             Optional<Game> game = gameRepository.findById(invoice.getItemId());
+
             if (game.isEmpty()) { return null; }                                    // Return null if item is not found
+
             unitPrice = game.get().getPrice();
             invoice.setUnitPrice(unitPrice);
             int totalQuantity = game.get().getQuantity();
+
             if (invoice.getQuantity() > totalQuantity) { return null; }           // Return null if quantity is invalid
+
             Game updatedGame = game.get();
             updatedGame.setQuantity(totalQuantity - invoice.getQuantity());
             taxObject = taxRepository.findByState(invoice.getState());
+
             if (taxObject.isEmpty()) { return null; }                           // Return null if state code is invalid
+
             gameRepository.save(updatedGame);
+
         } else if (ivm.getItemType().equalsIgnoreCase("Console")) {
             Optional<Console> console = consoleRepository.findById(invoice.getItemId());
+
             if (console.isEmpty()) { return null; }                                 // Return null if item is not found
+
             unitPrice = console.get().getPrice();
             invoice.setUnitPrice(unitPrice);
             int totalQuantity = console.get().getQuantity();
+
             if (invoice.getQuantity() > totalQuantity) { return null; }           // Return null if quantity is invalid
+
             Console updatedConsole = console.get();
             updatedConsole.setQuantity(totalQuantity - invoice.getQuantity());
             taxObject = taxRepository.findByState(invoice.getState());
+
             if (taxObject.isEmpty()) { return null; }                           // Return null if state code is invalid
+
             consoleRepository.save(updatedConsole);
+
         } else if (ivm.getItemType().equalsIgnoreCase("T-Shirt")) {
+
             Optional<TShirt> tShirt = tShirtRepository.findById(invoice.getItemId());
+
             if (tShirt.isEmpty()) { return null; }                                  // Return null if item is not found
+
             unitPrice = tShirt.get().getPrice();
             invoice.setUnitPrice(unitPrice);
             int totalQuantity = tShirt.get().getQuantity();
+
             if (invoice.getQuantity() > totalQuantity) { return null; }           // Return null if quantity is invalid
+
             TShirt updatedTShirt = tShirt.get();
             updatedTShirt.setQuantity(totalQuantity - invoice.getQuantity());
             taxObject = taxRepository.findByState(invoice.getState());
+
             if (taxObject.isEmpty()) { return null; }                           // Return null if state code is invalid
+
             tShirtRepository.save(updatedTShirt);
+
         } else {
             return null;
         }
