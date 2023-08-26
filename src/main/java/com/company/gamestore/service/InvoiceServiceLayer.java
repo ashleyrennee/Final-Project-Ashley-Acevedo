@@ -44,12 +44,13 @@ public class InvoiceServiceLayer {
         invoice.setItemId(ivm.getItemId());
         invoice.setQuantity(ivm.getQuantity());
 
-        if (invoice.getQuantity() <= 0) { return  null; }                 // Return null if invoice quantity is invalid
+        if (invoice.getQuantity() <= 0) { return null; }                 // Return null if invoice quantity is invalid
 
         BigDecimal unitPrice;
         Optional<Tax> taxObject;
 
-        if (invoice.getItemType().equals("Game")) {
+        if (invoice.getItemType().equalsIgnoreCase("Game")) {
+
             Optional<Game> game = gameRepository.findById(invoice.getItemId());
             if (game.isEmpty()) { return null; }                                    // Return null if item is not found
             unitPrice = game.get().getPrice();
@@ -61,7 +62,7 @@ public class InvoiceServiceLayer {
             taxObject = taxRepository.findByState(invoice.getState());
             if (taxObject.isEmpty()) { return null; }                           // Return null if state code is invalid
             gameRepository.save(updatedGame);
-        } else if (ivm.getItemType().equals("Console")) {
+        } else if (ivm.getItemType().equalsIgnoreCase("Console")) {
             Optional<Console> console = consoleRepository.findById(invoice.getItemId());
             if (console.isEmpty()) { return null; }                                 // Return null if item is not found
             unitPrice = console.get().getPrice();
@@ -73,7 +74,7 @@ public class InvoiceServiceLayer {
             taxObject = taxRepository.findByState(invoice.getState());
             if (taxObject.isEmpty()) { return null; }                           // Return null if state code is invalid
             consoleRepository.save(updatedConsole);
-        } else if (ivm.getItemType().equals("T-Shirt")) {
+        } else if (ivm.getItemType().equalsIgnoreCase("T-Shirt")) {
             Optional<TShirt> tShirt = tShirtRepository.findById(invoice.getItemId());
             if (tShirt.isEmpty()) { return null; }                                  // Return null if item is not found
             unitPrice = tShirt.get().getPrice();
@@ -109,7 +110,7 @@ public class InvoiceServiceLayer {
         invoice.setTotal(total);
 
         // Save the Invoice object in the invoice repository
-        invoiceRepository.save(invoice);
+        invoice = invoiceRepository.save(invoice);
 
         // Return the Invoice View Model
         return buildInvoiceViewModel(invoice);
