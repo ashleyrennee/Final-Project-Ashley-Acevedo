@@ -70,10 +70,7 @@ public class InvoiceRepositoryTest {
         ivm.setItemId(game.getId());
         ivm.setQuantity(5);
 
-        System.out.println("IVM BEFORE SAVE: " + ivm.toString());
-
         ivm = invoiceServiceLayer.saveInvoice(ivm);
-        System.out.println("IVM AFTER SAVE: " + ivm.toString());
     }
 
     @Test
