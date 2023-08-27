@@ -5,7 +5,7 @@ import com.company.gamestore.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ public class GameController {
     // Create
     @PostMapping(path = "/game")
     @ResponseStatus(HttpStatus.CREATED)
-    public Game addGame(@RequestBody Game game) {
+    public Game addGame(@RequestBody @Valid Game game) {
         return gameRepository.save(game);
     }
 
@@ -42,7 +42,7 @@ public class GameController {
     // Update
     @PutMapping(path = "/game")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Game updateGame(@RequestBody Game game) {
+    public Game updateGame(@RequestBody @Valid Game game) {
         return gameRepository.save(game);
     }
 

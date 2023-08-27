@@ -5,6 +5,7 @@ import com.company.gamestore.repository.TaxRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -15,7 +16,7 @@ public class TaxController {
 
     @PostMapping(path = "/tax")
     @ResponseStatus(HttpStatus.CREATED)
-    public Tax addTax(@RequestBody Tax tax) {
+    public Tax addTax(@RequestBody @Valid Tax tax) {
         return taxRepository.save(tax);
     }
 
@@ -28,7 +29,7 @@ public class TaxController {
 
     @PutMapping(path = "/tax")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Tax updateTax(@RequestBody Tax tax) { return taxRepository.save(tax); }
+    public Tax updateTax(@RequestBody @Valid Tax tax) { return taxRepository.save(tax); }
 
     @DeleteMapping("/tax/{state}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -5,19 +5,15 @@ import com.company.gamestore.repository.ConsoleRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.math.BigDecimal;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(ConsoleController.class)
 public class ConsoleControllerTests {
     @Autowired
@@ -52,7 +48,7 @@ public class ConsoleControllerTests {
 
     @Test
     public void shouldUpdateConsoleById() throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal(310),
+        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("310"),
                 5);
         String inputJson = mapper.writeValueAsString(console);
         mockMvc.perform(
@@ -77,5 +73,21 @@ public class ConsoleControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldReturn422Error() throws Exception{
+        Console console = new Console();
+        String inputJson = mapper.writeValueAsString(console);
+        mockMvc.perform(
+                post("/console").contentType(MediaType.APPLICATION_JSON)
+                        .content(inputJson)
+        ).andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void shouldReturn5xxError() throws Exception{
+
     }
 }

@@ -6,10 +6,8 @@ import com.company.gamestore.viewmodel.InvoiceViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,41 +44,97 @@ public class InvoiceServiceLayer {
         invoice.setItemId(ivm.getItemId());
         invoice.setQuantity(ivm.getQuantity());
 
-        BigDecimal unitPrice;
+        if (invoice.getQuantity() <= 0) { return null; }                 // Return null if invoice quantity is invalid
 
-        if (invoice.getItemType().equals("Game")) {
+        BigDecimal unitPrice;
+        Optional<Tax> taxObject;
+
+        if (invoice.getItemType().equalsIgnoreCase("Game")) {
+
             Optional<Game> game = gameRepository.findById(invoice.getItemId());
+
+            if (game.isEmpty()) { return null; }                                    // Return null if item is not found
+
             unitPrice = game.get().getPrice();
             invoice.setUnitPrice(unitPrice);
-        } else if (ivm.getItemType().equals("Console")) {
+            int totalQuantity = game.get().getQuantity();
+
+            if (invoice.getQuantity() > totalQuantity) { return null; }           // Return null if quantity is invalid
+
+            Game updatedGame = game.get();
+            updatedGame.setQuantity(totalQuantity - invoice.getQuantity());
+            taxObject = taxRepository.findByState(invoice.getState());
+
+            if (taxObject.isEmpty()) { return null; }                           // Return null if state code is invalid
+
+            gameRepository.save(updatedGame);
+
+        } else if (ivm.getItemType().equalsIgnoreCase("Console")) {
             Optional<Console> console = consoleRepository.findById(invoice.getItemId());
+
+            if (console.isEmpty()) { return null; }                                 // Return null if item is not found
+
             unitPrice = console.get().getPrice();
             invoice.setUnitPrice(unitPrice);
-        } else if (ivm.getItemType().equals("T-Shirt")) {
+            int totalQuantity = console.get().getQuantity();
+
+            if (invoice.getQuantity() > totalQuantity) { return null; }           // Return null if quantity is invalid
+
+            Console updatedConsole = console.get();
+            updatedConsole.setQuantity(totalQuantity - invoice.getQuantity());
+            taxObject = taxRepository.findByState(invoice.getState());
+
+            if (taxObject.isEmpty()) { return null; }                           // Return null if state code is invalid
+
+            consoleRepository.save(updatedConsole);
+
+        } else if (ivm.getItemType().equalsIgnoreCase("T-Shirt")) {
+
             Optional<TShirt> tShirt = tShirtRepository.findById(invoice.getItemId());
+
+            if (tShirt.isEmpty()) { return null; }                                  // Return null if item is not found
+
             unitPrice = tShirt.get().getPrice();
             invoice.setUnitPrice(unitPrice);
+            int totalQuantity = tShirt.get().getQuantity();
+
+            if (invoice.getQuantity() > totalQuantity) { return null; }           // Return null if quantity is invalid
+
+            TShirt updatedTShirt = tShirt.get();
+            updatedTShirt.setQuantity(totalQuantity - invoice.getQuantity());
+            taxObject = taxRepository.findByState(invoice.getState());
+
+            if (taxObject.isEmpty()) { return null; }                           // Return null if state code is invalid
+
+            tShirtRepository.save(updatedTShirt);
+
         } else {
             return null;
         }
 
+        // Calculate the subtotal amount
         BigDecimal subtotal = unitPrice.multiply(BigDecimal.valueOf(invoice.getQuantity()));
         invoice.setSubtotal(subtotal);
 
-        Optional<Tax> taxObject = taxRepository.findByState(invoice.getState());
+        // Calculate the tax
         BigDecimal taxRate = taxObject.get().getRate();
-        BigDecimal tax = unitPrice.multiply(taxRate);
+        BigDecimal tax = subtotal.multiply(taxRate).setScale(2, RoundingMode.HALF_UP);
         invoice.setTax(tax);
 
+        // Calculate the total processing fee
         Optional<Fee> feeObject = feeRepository.findByProductType(invoice.getItemType());
         BigDecimal processingFee = feeObject.get().getFee();
         if (invoice.getQuantity() > 10) { processingFee = processingFee.add(BigDecimal.valueOf(15.99)); }
         invoice.setProcessingFee(processingFee);
 
+        // Calculate the total amount for the invoice
         BigDecimal total = subtotal.add(tax).add(processingFee);
         invoice.setTotal(total);
 
-        invoiceRepository.save(invoice);
+        // Save the Invoice object in the invoice repository
+        invoice = invoiceRepository.save(invoice);
+
+        // Return the Invoice View Model
         return buildInvoiceViewModel(invoice);
     }
 

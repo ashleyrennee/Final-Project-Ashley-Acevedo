@@ -5,7 +5,6 @@ import com.company.gamestore.repository.ConsoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +16,7 @@ public class ConsoleController {
 
     @PostMapping("/console")
     @ResponseStatus(HttpStatus.CREATED)
-    public Console createConsole(@RequestBody  @Valid Console console){
+    public Console createConsole(@RequestBody @Valid Console console){
         return consoleRepository.save(console);
     }
 
@@ -41,16 +40,18 @@ public class ConsoleController {
     }
     @PutMapping("/console/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateConsoleById(@PathVariable int id){
+    public void updateConsoleById(@RequestBody @Valid Console console, @PathVariable int id){
         Optional<Console> resultConsole = consoleRepository.findById(id);
         if (resultConsole.isPresent()) {
             Console returnVal = resultConsole.get();
-            Console updatedConsole = new Console(
-                returnVal.getModel(), returnVal.getManufacturer(), returnVal.getMemoryCount(),
-                    returnVal.getProcessor(), returnVal.getPrice(), returnVal.getQuantity()
-            );
-            updatedConsole.setId(returnVal.getId());
-            consoleRepository.save(updatedConsole);
+            returnVal.setPrice(console.getPrice());
+            returnVal.setQuantity(console.getQuantity());
+            returnVal.setManufacturer(console.getManufacturer());
+            returnVal.setModel(console.getModel());
+            returnVal.setProcessor(console.getProcessor());
+            returnVal.setMemoryAmount(console.getMemoryAmount());
+            returnVal.setId(returnVal.getId());
+            consoleRepository.save(returnVal);
         }
     }
 

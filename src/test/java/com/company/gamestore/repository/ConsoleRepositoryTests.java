@@ -5,11 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -82,6 +80,9 @@ public class ConsoleRepositoryTests {
         Console console2 = new Console("ps4", "Sony", "50", "intel", new BigDecimal("130.00"),
                 4);
         console2 = consoleRepository.save(console2);
+        Console console3 = new Console("xbox", "Microsoft", "50", "intel", new BigDecimal("110.00"),
+                4);
+        console3 = consoleRepository.save(console3);
         List<Console> returnCon = consoleRepository.findByManufacturer(console.getManufacturer());
         assertEquals(returnCon.size(), 2);
     }
