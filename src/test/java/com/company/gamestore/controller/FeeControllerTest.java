@@ -73,4 +73,15 @@ public class FeeControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    void shouldReturn422Error() throws Exception{
+       Fee fee1 = new Fee();
+       String inputJson = mapper.writeValueAsString(fee1);
+       mockMvc.perform(
+               post("/fee").content(inputJson)
+                       .contentType(MediaType.APPLICATION_JSON)
+       ).andDo(print())
+               .andExpect(status().isUnprocessableEntity());
+    }
+
 }

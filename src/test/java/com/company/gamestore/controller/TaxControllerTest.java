@@ -10,7 +10,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.math.BigDecimal;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -69,6 +71,17 @@ public class TaxControllerTest {
         mockMvc.perform(delete("/tax/NY"))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void shouldReturn422Error() throws Exception{
+        Tax tax1 = new Tax();
+        String inputJson = mapper.writeValueAsString(tax1);
+        mockMvc.perform(
+                        post("/tax").content(inputJson)
+                                .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 
 }
