@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ConsoleController.class)
-public class ConsoleControllerTests {
+public class ConsoleControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -86,8 +86,4 @@ public class ConsoleControllerTests {
                 .andExpect(status().isUnprocessableEntity());
     }
 
-    @Test
-    public void shouldReturn5xxError() throws Exception{
-
-    }
 }

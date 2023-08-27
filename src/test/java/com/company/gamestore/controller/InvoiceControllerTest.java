@@ -2,8 +2,8 @@ package com.company.gamestore.controller;
 
 import com.company.gamestore.model.Game;
 import com.company.gamestore.repository.FeeRepository;
-import com.company.gamestore.repository.InvoiceRepository;
 import com.company.gamestore.repository.GameRepository;
+import com.company.gamestore.repository.InvoiceRepository;
 import com.company.gamestore.repository.TaxRepository;
 import com.company.gamestore.service.InvoiceServiceLayer;
 import com.company.gamestore.viewmodel.InvoiceViewModel;
@@ -15,8 +15,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.math.BigDecimal;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -92,5 +95,16 @@ public class InvoiceControllerTest {
     void findInvoicesByCustomerName() throws Exception {
         mockMvc.perform(get("/invoice/name/James"))
                 .andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldReturn422Error() throws Exception{
+        InvoiceViewModel ivm1 = new InvoiceViewModel();
+        String inputJson = mapper.writeValueAsString(ivm1);
+        mockMvc.perform(
+                        post("/invoice").content(inputJson)
+                                .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 }

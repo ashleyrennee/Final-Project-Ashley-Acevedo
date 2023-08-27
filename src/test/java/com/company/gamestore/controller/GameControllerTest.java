@@ -10,7 +10,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.math.BigDecimal;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -103,5 +105,17 @@ public class GameControllerTest {
         mockMvc.perform(get("/game/title/Street"))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldReturn422Error() throws Exception{
+        Game game1 = new Game();
+        game1.setTitle("Fortnite");
+        String inputJson = mapper.writeValueAsString(game1);
+        mockMvc.perform(
+                        post("/game").content(inputJson)
+                                .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 }
