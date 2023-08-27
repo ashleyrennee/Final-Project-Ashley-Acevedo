@@ -1,24 +1,45 @@
 package com.company.gamestore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "Handler"})
 @Table(name = "game")
-public class Game {
+public class Game implements Serializable {
     @Id
     @Column(name = "game_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotEmpty(message = "You must provide a title")
+    @Size(max = 50, message = "Maximum of 50 characters")
     private String title;
+
+    @NotEmpty(message = "You must provide an ESRB rating")
+    @Size(max = 50, message = "Maximum of 50 characters")
+    @Column(name = "esrb_rating")
     private String esrbRating;
+
+    @NotEmpty(message = "You must provide a description")
+    @Size(max = 255, message = "Maximum of 255 characters")
     private String description;
+
+    @NotNull(message = "You must provide a price")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
+    @Digits(integer = 5, fraction = 2, message = "You must provide a max of 5 integer digits and 2 fractional digits")
     private BigDecimal price;
+
+    @NotEmpty(message = "You must provide a studio")
+    @Size(max = 20, message = "Maximum of 20 characters")
     private String studio;
+
+    @NotNull(message = "You must provide a quantity")
+    @Min(value = 1, message = "Quantity must be greater than 0")
     private int quantity;
 
     public int getId() {

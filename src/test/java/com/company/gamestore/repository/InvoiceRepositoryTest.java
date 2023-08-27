@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -95,5 +94,8 @@ public class InvoiceRepositoryTest {
     public void findInvoicesByCustomerName() throws Exception {
         List<InvoiceViewModel> invoices = invoiceServiceLayer.findInvoicesByCustomerName(ivm.getName());
         assertEquals(1, invoices.size());
+
+        invoices = invoiceServiceLayer.findInvoicesByCustomerName(" ");
+        assertEquals(0, invoices.size());
     }
 }

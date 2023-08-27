@@ -5,6 +5,7 @@ import com.company.gamestore.viewmodel.InvoiceViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,7 +16,7 @@ public class InvoiceController {
     // Create
     @PostMapping(path = "/invoice")
     @ResponseStatus(HttpStatus.CREATED)
-    public InvoiceViewModel createInvoice(@RequestBody InvoiceViewModel invoiceViewModel) {
+    public InvoiceViewModel createInvoice(@RequestBody @Valid InvoiceViewModel invoiceViewModel) {
         return invoiceServiceLayer.saveInvoice(invoiceViewModel);
     }
 

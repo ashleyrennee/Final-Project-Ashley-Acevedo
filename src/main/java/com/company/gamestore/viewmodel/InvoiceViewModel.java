@@ -1,22 +1,62 @@
 package com.company.gamestore.viewmodel;
 
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public class InvoiceViewModel {
+
     private int id;
+
+    @NotNull(message = "You must provide a name")
+    @Size(max = 50, message = "Maximum of 50 characters")
     private String name;
+
+    @NotNull(message = "You must provide a street")
+    @Size(max = 100, message = "Maximum of 100 characters")
     private String street;
+
+    @NotNull(message = "You must provide a city")
+    @Size(max = 50, message = "Maximum of 50 characters")
     private String city;
+
+    @NotNull(message = "You must provide a state")
+    @Size(max = 20, message = "Maximum of 20 characters")
     private String state;
+
+    @NotNull(message = "You must provide a zipcode")
+    @Size(max = 10, message = "Maximum of 10 characters")
     private String zipcode;
+
+    @NotNull(message = "You must provide an item type")
+    @Size(max = 50, message = "Maximum of 50 characters")
     private String itemType;
+
+    @NotNull(message = "You must provide an item id")
     private int itemId; // links to either game, console, or t_shirt ids
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
+    @Digits(integer = 8, fraction = 2, message = "You must provide a max of 8 integer digits and 2 fractional digits")
     private BigDecimal unitPrice;
+
+    @NotNull(message = "You must provide a quantity")
+    @Min(value = 1, message = "Quantity must be greater than 1")
     private int quantity;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Subtotal must be greater than 0")
+    @Digits(integer = 8, fraction = 2, message = "You must provide a max of 8 integer digits and 2 fractional digits")
     private BigDecimal subtotal;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Tax must be greater than 0")
+    @Digits(integer = 8, fraction = 2, message = "You must provide a max of 8 integer digits and 2 fractional digits")
     private BigDecimal tax;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Processing Fee must be greater than 0")
+    @Digits(integer = 8, fraction = 2, message = "You must provide a max of 8 integer digits and 2 fractional digits")
     private BigDecimal processingFee;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Total must be greater than 0")
+    @Digits(integer = 8, fraction = 2, message = "You must provide a max of 8 integer digits and 2 fractional digits")
     private BigDecimal total;
 
     public InvoiceViewModel() {}

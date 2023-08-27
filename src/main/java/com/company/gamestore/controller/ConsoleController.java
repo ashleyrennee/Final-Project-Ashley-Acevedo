@@ -5,7 +5,6 @@ import com.company.gamestore.repository.ConsoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +16,7 @@ public class ConsoleController {
 
     @PostMapping("/console")
     @ResponseStatus(HttpStatus.CREATED)
-    public Console createConsole(@RequestBody  @Valid Console console){
+    public Console createConsole(@RequestBody @Valid Console console){
         return consoleRepository.save(console);
     }
 
@@ -41,7 +40,7 @@ public class ConsoleController {
     }
     @PutMapping("/console/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateConsoleById(@RequestBody Console console,@PathVariable int id){
+    public void updateConsoleById(@RequestBody @Valid Console console, @PathVariable int id){
         Optional<Console> resultConsole = consoleRepository.findById(id);
         if (resultConsole.isPresent()) {
             Console returnVal = resultConsole.get();
