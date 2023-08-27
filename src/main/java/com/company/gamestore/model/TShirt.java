@@ -24,7 +24,7 @@ public class TShirt implements Serializable {
     @Size(max = 20, message = "Maximum of 20 characters")
     private String color;
 
-    @NotEmpty(message = "You must provide a descripstion")
+    @NotEmpty(message = "You must provide a description")
     @Size(max = 255, message = "Maximum of 255 characters")
     private String description;
 
