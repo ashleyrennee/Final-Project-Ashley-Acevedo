@@ -52,7 +52,7 @@ public class Invoice implements Serializable {
     private BigDecimal unitPrice;
 
     @NotNull(message = "You must provide a quantity")
-    @Min(value = 1, message = "Quantity must be greater than 1")
+    @Min(value = 1, message = "Quantity must be greater than 0")
     private int quantity;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "Subtotal must be greater than 0")

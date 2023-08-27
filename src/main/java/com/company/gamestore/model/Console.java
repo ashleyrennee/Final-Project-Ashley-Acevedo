@@ -40,7 +40,7 @@ public class Console implements Serializable {
     private BigDecimal price;
 
     @NotNull(message = "You must provide a quantity")
-    @Min(value = 1, message = "Quantity must be greater than 1")
+    @Min(value = 1, message = "Quantity must be greater than 0")
     private int quantity;
 
     public Console(){}

@@ -3,13 +3,14 @@ package com.company.gamestore.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 @Table(name = "tshirt")
-public class TShirt {
+public class TShirt implements Serializable {
     @Id
     @Column(name = "tshirt_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +34,7 @@ public class TShirt {
     private BigDecimal price;
 
     @NotNull(message = "You must provide a quantity")
-    @Min(value = 1, message = "Quantity must be greater than 1")
+    @Min(value = 1, message = "Quantity must be greater than 0")
     private int quantity;
 
     public TShirt() {}

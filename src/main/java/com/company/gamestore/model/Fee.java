@@ -6,13 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "fee")
-public class Fee {
+public class Fee implements Serializable {
 
     @Id
     @NotEmpty(message = "You must provide a product type")
