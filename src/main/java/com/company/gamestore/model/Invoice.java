@@ -1,43 +1,82 @@
 package com.company.gamestore.model;
 
-import com.company.gamestore.repository.InvoiceRepository;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer","Handler"})
 @Table(name = "invoice")
-public class Invoice {
+public class Invoice implements Serializable {
     @Id
     @Column(name = "invoice_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotEmpty(message = "You must provide a name")
+    @Size(max = 50, message = "Maximum of 50 characters")
     private String name;
+
+    @NotEmpty(message = "You must provide a street")
+    @Size(max = 100, message = "Maximum of 100 characters")
     private String street;
+
+    @NotEmpty(message = "You must provide a city")
+    @Size(max = 50, message = "Maximum of 50 characters")
     private String city;
+
+    @NotEmpty(message = "You must provide a state")
+    @Size(max = 20, message = "Maximum of 20 characters")
     private String state;
+
+    @NotEmpty(message = "You must provide a zipcode")
+    @Size(max = 10, message = "Maximum of 10 characters")
     private String zipcode;
+
+    @Column(name = "item_type")
+    @NotEmpty(message = "You must provide an item type")
+    @Size(max = 50, message = "Maximum of 50 characters")
     private String itemType;
+
+    @Column(name = "item_id")
+    @NotNull(message = "You must provide an item id")
     private int itemId; // links to either game, console, or t_shirt ids
+
+    @Column(name = "unit_price")
+    @NotNull(message = "You must provide a unit price")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Unit Price must be greater than 0")
+    @Digits(integer = 8, fraction = 2, message = "You must provide a max of 8 integer digits and 2 fractional digits")
     private BigDecimal unitPrice;
+
+    @NotNull(message = "You must provide a quantity")
+    @Min(value = 1, message = "Quantity must be greater than 1")
     private int quantity;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Subtotal must be greater than 0")
+    @Digits(integer = 8, fraction = 2, message = "You must provide a max of 8 integer digits and 2 fractional digits")
     private BigDecimal subtotal;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Tax must be greater than 0")
+    @Digits(integer = 8, fraction = 2, message = "You must provide a max of 8 integer digits and 2 fractional digits")
     private BigDecimal tax;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Processing Fee must be greater than 0")
+    @Digits(integer = 8, fraction = 2, message = "You must provide a max of 8 integer digits and 2 fractional digits")
+    @Column(name = "processing_fee")
     private BigDecimal processingFee;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Total must be greater than 0")
+    @Digits(integer = 8, fraction = 2, message = "You must provide a max of 8 integer digits and 2 fractional digits")
     private BigDecimal total;
 
     public Invoice() {}
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id; }
 
     public String getName() {
         return name;

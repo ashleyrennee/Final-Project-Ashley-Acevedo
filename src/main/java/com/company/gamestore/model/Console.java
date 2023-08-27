@@ -1,7 +1,6 @@
 package com.company.gamestore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -17,26 +16,31 @@ public class Console implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "console_id")
     private Integer id;
+
     @NotEmpty(message = "You must provide a model for this console")
     @Size(max = 50, message = "Maximum of 50 characters")
     private String model;
+
     @NotEmpty(message = "You must provide a manufacturer")
     @Size(max = 50, message = "Maximum of 50 characters")
     private String manufacturer;
 
     @Column(name = "memory_amount")
     @NotEmpty(message = "You must provide a memory amount")
-    @Size(min = 1, max = 20, message = "Maximum of 20 characters")
+    @Size(max = 20, message = "Maximum of 20 characters")
     private String memoryAmount;
+
     @NotEmpty(message = "You must provide a processor")
-    @Size(min=1, max = 20, message = "Maximum of 20 characters")
+    @Size(max = 20, message = "Maximum of 20 characters")
     private String processor;
 
-     @NotNull(message = "You must provide a price")
-     @DecimalMin(value = "0.0", inclusive = false)
+    @NotNull(message = "You must provide a price")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
     @Digits(integer = 5, fraction = 2)
     private BigDecimal price;
+
     @NotNull(message = "You must provide a quantity")
+    @Min(value = 1, message = "Quantity must be greater than 1")
     private int quantity;
 
     public Console(){}

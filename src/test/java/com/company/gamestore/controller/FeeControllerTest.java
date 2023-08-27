@@ -1,7 +1,6 @@
 package com.company.gamestore.controller;
 
 import com.company.gamestore.model.Fee;
-import com.company.gamestore.model.Game;
 import com.company.gamestore.repository.FeeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

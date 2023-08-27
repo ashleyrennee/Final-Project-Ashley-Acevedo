@@ -1,8 +1,8 @@
 package com.company.gamestore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -11,13 +11,32 @@ import java.util.Objects;
 @Table(name = "tshirt")
 public class TShirt {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "tshirt_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tShirtId;
+
+    @NotEmpty(message = "You must provide a size")
+    @Size(max = 20, message = "Maximum of 20 characters")
     private String size;
+
+    @NotEmpty(message = "You must provide a color")
+    @Size(max = 20, message = "Maximum of 20 characters")
     private String color;
+
+    @NotEmpty(message = "You must provide a descripstion")
+    @Size(max = 255, message = "Maximum of 255 characters")
     private String description;
+
+    @NotNull(message = "You must provide a price")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
+    @Digits(integer = 5, fraction = 2, message = "You must provide a max of 5 integer digits and 2 fractional digits")
     private BigDecimal price;
+
+    @NotNull(message = "You must provide a quantity")
+    @Min(value = 1, message = "Quantity must be greater than 1")
     private int quantity;
+
+    public TShirt() {}
 
     public int gettShirtId() {
         return tShirtId;
@@ -91,4 +110,5 @@ public class TShirt {
                 ", quantity=" + quantity +
                 '}';
     }
+
 }
