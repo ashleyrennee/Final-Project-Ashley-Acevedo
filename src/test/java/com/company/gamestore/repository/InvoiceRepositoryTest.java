@@ -94,5 +94,8 @@ public class InvoiceRepositoryTest {
     public void findInvoicesByCustomerName() throws Exception {
         List<InvoiceViewModel> invoices = invoiceServiceLayer.findInvoicesByCustomerName(ivm.getName());
         assertEquals(1, invoices.size());
+
+        invoices = invoiceServiceLayer.findInvoicesByCustomerName(" ");
+        assertEquals(0, invoices.size());
     }
 }
