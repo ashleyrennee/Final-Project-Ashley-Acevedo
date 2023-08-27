@@ -3,20 +3,27 @@ package com.company.gamestore.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 @Table(name = "tshirt")
-public class TShirt {
+public class TShirt implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int tShirtId;
+    @NotEmpty(message = "Size cannot be empty")
     private String size;
+    @NotEmpty(message = "Color cannot be empty")
     private String color;
+    @NotEmpty(message = "Description cannot be empty")
     private String description;
+    @NotEmpty(message = "Price cannot be empty")
     private BigDecimal price;
+    @NotEmpty(message = "Quantity cannot be empty")
     private int quantity;
 
     public int gettShirtId() {
