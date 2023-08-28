@@ -15,14 +15,14 @@ public class TShirtController {
     @Autowired
     TShirtRepository tShirtRepo;
 
+    // Create
     @PostMapping("/tshirts")
     @ResponseStatus(HttpStatus.CREATED)
     public TShirt addTShirt(@RequestBody @Valid TShirt tShirt){return tShirtRepo.save(tShirt);}
 
-    @GetMapping("/tshirts")
-    public List<TShirt> getAllTShirts(){return tShirtRepo.findAll();}
-
+    // Read
     @GetMapping("/tshirts/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public TShirt getTShirtById(@PathVariable int id){
         Optional<TShirt> returnVal = tShirtRepo.findById(id);
         if(returnVal.isPresent()){
@@ -31,20 +31,31 @@ public class TShirtController {
         return null;
     }
 
-    @GetMapping("/tshirts/color/{color}")
-    public List<TShirt> getTShirtByColor(@PathVariable String color){
-       return tShirtRepo.findByColor(color);
-    }
+    // Read All
+    @GetMapping("/tshirts")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TShirt> getAllTShirts(){return tShirtRepo.findAll();}
 
-    @GetMapping("/tshirts/size/{size}")
-    public List<TShirt> getTShirtBySize(@PathVariable String size){return tShirtRepo.findBySize(size);}
-
+    // Update
     @PutMapping("/tshirts")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateTShirt(@RequestBody @Valid TShirt tShirt){tShirtRepo.save(tShirt);}
 
+    // Delete
     @DeleteMapping("/tshirts/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTShirtById(@PathVariable int id){tShirtRepo.deleteById(id);}
+
+    // By Color
+    @GetMapping("/tshirts/color/{color}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TShirt> getTShirtByColor(@PathVariable String color){
+       return tShirtRepo.findByColor(color);
+    }
+
+    // By Size
+    @GetMapping("/tshirts/size/{size}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TShirt> getTShirtBySize(@PathVariable String size){return tShirtRepo.findBySize(size);}
 
 }

@@ -38,6 +38,7 @@ public class TShirtControllerTest {
         tShirt.setDescription("100% cotton t-shirt made in USA");
     }
 
+    // Create
     @Test
     void addTShirt() throws Exception{
         String input = mapper.writeValueAsString(tShirt);
@@ -49,6 +50,7 @@ public class TShirtControllerTest {
                 .andExpect(status().isCreated());
     }
 
+    // Read
     @Test
     void getTShirtById() throws Exception{
         mockMvc.perform(get("/tshirts/1"))
@@ -56,7 +58,7 @@ public class TShirtControllerTest {
                 .andExpect(status().isOk());
     }
 
-
+    // Read All
     @Test
     void getAllTShirts() throws Exception{
         mockMvc.perform(get("/tshirts"))
@@ -64,20 +66,7 @@ public class TShirtControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void getAllShirtsByColor() throws Exception{
-        mockMvc.perform(get("/tshirts/color/Blue"))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void getAllShirtsBySize() throws Exception{
-        mockMvc.perform(get("/tshirts/size/Small"))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
+    // Update
     @Test
     void updateTShirt() throws Exception{
         tShirt.setColor("Pink");
@@ -91,11 +80,28 @@ public class TShirtControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    // Delete
     @Test
     void deleteTShirt() throws Exception{
         mockMvc.perform(delete("/tshirts/1"))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    // By Color
+    @Test
+    void getAllShirtsByColor() throws Exception{
+        mockMvc.perform(get("/tshirts/color/Blue"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    // By Size
+    @Test
+    void getAllShirtsBySize() throws Exception{
+        mockMvc.perform(get("/tshirts/size/Small"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test

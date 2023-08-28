@@ -38,6 +38,7 @@ public class ConsoleController {
     public List<Console> shouldGetConsoleByManufacturer(@PathVariable String manufacturer){
         return consoleRepository.findByManufacturer(manufacturer);
     }
+
     @PutMapping("/console/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateConsoleById(@RequestBody @Valid Console console, @PathVariable int id){
@@ -59,10 +60,9 @@ public class ConsoleController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void shouldDeleteConsole(@PathVariable int id){
         Optional<Console> returnVal = consoleRepository.findById(id);
-        if(returnVal.isPresent()){
+        if (returnVal.isPresent()){
             consoleRepository.deleteById(id);
         }
     }
-
 
 }

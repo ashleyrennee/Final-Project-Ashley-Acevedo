@@ -80,6 +80,19 @@ public class InvoiceRepositoryTest {
     }
 
     @Test
+    public void shouldCalculateCorrectly() throws Exception {
+        InvoiceViewModel newInvoice = invoiceServiceLayer.getInvoiceById(ivm.getId());
+        assertEquals(newInvoice, ivm);
+        assertEquals(BigDecimal.valueOf(160.44), newInvoice.getTotal());
+
+        ivm.setQuantity(15);
+        ivm = invoiceServiceLayer.saveInvoice(ivm);
+        newInvoice = invoiceServiceLayer.getInvoiceById(ivm.getId());
+        assertEquals(newInvoice, ivm);
+        assertEquals(BigDecimal.valueOf(493.82), newInvoice.getTotal());
+    }
+
+    @Test
     public void getInvoiceById() throws Exception {
         InvoiceViewModel newInvoice = invoiceServiceLayer.getInvoiceById(ivm.getId());
         assertEquals(newInvoice, ivm);
@@ -98,4 +111,5 @@ public class InvoiceRepositoryTest {
         invoices = invoiceServiceLayer.findInvoicesByCustomerName(" ");
         assertEquals(0, invoices.size());
     }
+
 }

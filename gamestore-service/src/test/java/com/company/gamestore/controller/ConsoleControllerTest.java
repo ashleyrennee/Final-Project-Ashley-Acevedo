@@ -3,6 +3,7 @@ package com.company.gamestore.controller;
 import com.company.gamestore.model.Console;
 import com.company.gamestore.repository.ConsoleRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,11 +25,16 @@ public class ConsoleControllerTest {
     @MockBean
     private ConsoleRepository consoleRepository;
 
+    private Console console;
+
+    @BeforeEach
+    public void setUp() {
+        console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("330.00"),
+                5);
+    }
 
     @Test
     public void shouldReturnCreatedStatus() throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("330.00"),
-                5);
         String inputJson = mapper.writeValueAsString(console);
         mockMvc.perform(
                 post("/console").content(inputJson)
@@ -48,8 +54,6 @@ public class ConsoleControllerTest {
 
     @Test
     public void shouldUpdateConsoleById() throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("310"),
-                5);
         String inputJson = mapper.writeValueAsString(console);
         mockMvc.perform(
                 put("/console/1").contentType(MediaType.APPLICATION_JSON)

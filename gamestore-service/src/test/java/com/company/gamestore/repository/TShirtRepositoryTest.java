@@ -33,11 +33,11 @@ public class TShirtRepositoryTest {
         System.out.println(tShirt);
     }
 
-    // Get all tshirts
+    // Create tshirt
     @Test
-    void findAllTShirts(){
-        List<TShirt> tShirts = tShirtRepository.findAll();
-        assertEquals(1, tShirts.size());
+    void createTShirt(){
+        Optional<TShirt> tShirt2 = tShirtRepository.findById(tShirt.gettShirtId());
+        assertEquals(tShirt2.get(), tShirt);
     }
 
     // Get tshirts by id
@@ -47,26 +47,11 @@ public class TShirtRepositoryTest {
         assertEquals(tShirt2.get(), tShirt);
     }
 
-
-    // Get tshirt by color
+    // Get all tshirts
     @Test
-    void findByColor(){
-        List<TShirt> tShirt2 = tShirtRepository.findByColor(tShirt.getColor());
-        assertEquals("Blue", tShirt.getColor());
-    }
-
-    // Get tshirt by size
-    @Test
-    void findBySize(){
-        List<TShirt> tShirt2 = tShirtRepository.findBySize(tShirt.getSize());
-        assertEquals("Small", tShirt.getSize());
-    }
-
-    // Create tshirt
-    @Test
-    void createTShirt(){
-        Optional<TShirt> tShirt2 = tShirtRepository.findById(tShirt.gettShirtId());
-        assertEquals(tShirt2.get(), tShirt);
+    void findAllTShirts(){
+        List<TShirt> tShirts = tShirtRepository.findAll();
+        assertEquals(1, tShirts.size());
     }
 
     // Update tshirt
@@ -88,4 +73,19 @@ public class TShirtRepositoryTest {
         Optional<TShirt> tShirt2 = tShirtRepository.findById(tShirt.gettShirtId());
         assertFalse(tShirt2.isPresent());
     }
+
+    // Get tshirt by color
+    @Test
+    void findByColor(){
+        List<TShirt> tShirt2 = tShirtRepository.findByColor(tShirt.getColor());
+        assertEquals("Blue", tShirt.getColor());
+    }
+
+    // Get tshirt by size
+    @Test
+    void findBySize(){
+        List<TShirt> tShirt2 = tShirtRepository.findBySize(tShirt.getSize());
+        assertEquals("Small", tShirt.getSize());
+    }
+
 }
