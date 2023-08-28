@@ -8,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class GameRepositoryTest {
@@ -61,23 +61,8 @@ public class GameRepositoryTest {
 
     @Test
     public void deleteGameById() {
-        Game gameToDel = new Game();
-        gameToDel.setTitle("Street Fighter 6");
-        gameToDel.setEsrbRating("T");
-        gameToDel.setDescription("Here comes Capcom’s newest challenger! Street Fighter 6 spans three distinct game modes, including World Tour, Fighting Ground and Battle Hub.");
-        gameToDel.setPrice(BigDecimal.valueOf(59.99));
-        gameToDel.setStudio("Capcom");
-        gameToDel.setQuantity(500);
-
-        gameToDel = gameRepository.save(gameToDel);
-
-        Optional<Game> newGame = gameRepository.findById(gameToDel.getId());
-        assertEquals(newGame.get(), gameToDel);
-
-        gameRepository.deleteById(gameToDel.getId());
-
-        newGame = gameRepository.findById(gameToDel.getId());
-
+        gameRepository.deleteById(game.getId());
+        Optional<Game> newGame = gameRepository.findById(game.getId());
         assertFalse(newGame.isPresent());
     }
 

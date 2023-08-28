@@ -16,74 +16,61 @@ public class ConsoleRepositoryTests {
     @Autowired
     ConsoleRepository consoleRepository;
 
+    private Console console1;
+    private Console console2;
+    private Console console3;
+
     @BeforeEach
     public void setUp(){
         consoleRepository.deleteAll();
+        console1 = new Console("ps5", "Sony", "50", "intel", new BigDecimal("330.00"),
+                5);
+        console2 = new Console("ps4", "Sony", "50", "intel", new BigDecimal("130.00"),
+                4);
+        console3 = new Console("xbox", "Microsoft", "50", "intel", new BigDecimal("110.00"),
+                4);
+        console1 = consoleRepository.save(console1);
+        console2 = consoleRepository.save(console2);
+        console3 = consoleRepository.save(console3);
     }
+
     @Test
     public void shouldCreateConsole() throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("330.00"),
-                5);
-        console = consoleRepository.save(console);
-        Optional<Console> returnVal = consoleRepository.findById(console.getId());
-        assertEquals (console, returnVal.get());
+        Optional<Console> returnVal = consoleRepository.findById(console1.getId());
+        assertEquals (console1, returnVal.get());
     }
 
     @Test
     public void shouldFindConsoleById() throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("330.00"),
-                5);
-        console = consoleRepository.save(console);
-        Optional<Console> returnVal = consoleRepository.findById(console.getId());
-        assertEquals (console, returnVal.get());
+        Optional<Console> returnVal = consoleRepository.findById(console1.getId());
+        assertEquals (console1, returnVal.get());
     }
 
     @Test
     public void shouldGetAllConsoles() throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("330.00"),
-                5);
-        Console console2 = new Console("ps4", "Sony", "50", "intel", new BigDecimal("130.00"),
-                4);
-        console = consoleRepository.save(console);
-        console2 = consoleRepository.save(console2);
         List<Console> res = consoleRepository.findAll();
-        assertEquals(res.size(), 2);
+        assertEquals(res.size(), 3);
     }
 
     @Test
     public void shouldUpdateConsoleById() throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("330.00"),
-                5);
-        console = consoleRepository.save(console);
-        console.setQuantity(10);
-        console.setPrice(new BigDecimal("300.00"));
-        Console updatedConsole = consoleRepository.save(console);
-        Optional<Console> resultConsole = consoleRepository.findById(console.getId());
+        console1.setQuantity(10);
+        console1.setPrice(new BigDecimal("300.00"));
+        Console updatedConsole = consoleRepository.save(console1);
+        Optional<Console> resultConsole = consoleRepository.findById(console1.getId());
         assertEquals(updatedConsole, resultConsole.get());
     }
 
     @Test
     public void shouldDeleteConsole()throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("330.00"),
-                5);
-        console = consoleRepository.save(console);
-        consoleRepository.deleteById(console.getId());
-        assertFalse(consoleRepository.findById(console.getId()).isPresent());
+        consoleRepository.deleteById(console1.getId());
+        assertFalse(consoleRepository.findById(console1.getId()).isPresent());
     }
 
     @Test
     public void shouldFindConsoleByManufacturer() throws Exception{
-        Console console = new Console("ps5", "Sony", "50", "intel", new BigDecimal("330.00"),
-                5);
-        console = consoleRepository.save(console);
-
-        Console console2 = new Console("ps4", "Sony", "50", "intel", new BigDecimal("130.00"),
-                4);
-        console2 = consoleRepository.save(console2);
-        Console console3 = new Console("xbox", "Microsoft", "50", "intel", new BigDecimal("110.00"),
-                4);
-        console3 = consoleRepository.save(console3);
-        List<Console> returnCon = consoleRepository.findByManufacturer(console.getManufacturer());
+        List<Console> returnCon = consoleRepository.findByManufacturer(console1.getManufacturer());
         assertEquals(returnCon.size(), 2);
     }
+
 }
