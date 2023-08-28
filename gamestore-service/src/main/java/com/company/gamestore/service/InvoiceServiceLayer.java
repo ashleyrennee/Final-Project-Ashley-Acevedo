@@ -124,7 +124,7 @@ public class InvoiceServiceLayer {
         // Calculate the total processing fee
         Optional<Fee> feeObject = feeRepository.findByProductType(invoice.getItemType());
         BigDecimal processingFee = feeObject.get().getFee();
-        if (invoice.getQuantity() > 10) { processingFee = processingFee.add(BigDecimal.valueOf(15.99)); }
+        if (invoice.getQuantity() > 10) { processingFee = processingFee.add(BigDecimal.valueOf(15.49)); }
         invoice.setProcessingFee(processingFee);
 
         // Calculate the total amount for the invoice
