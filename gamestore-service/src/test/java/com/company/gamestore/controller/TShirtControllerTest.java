@@ -43,7 +43,7 @@ public class TShirtControllerTest {
     void addTShirt() throws Exception{
         String input = mapper.writeValueAsString(tShirt);
 
-        mockMvc.perform(post("/tshirts")
+        mockMvc.perform(post("/tshirt")
                 .content(input)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -53,7 +53,7 @@ public class TShirtControllerTest {
     // Read
     @Test
     void getTShirtById() throws Exception{
-        mockMvc.perform(get("/tshirts/1"))
+        mockMvc.perform(get("/tshirt/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -61,7 +61,7 @@ public class TShirtControllerTest {
     // Read All
     @Test
     void getAllTShirts() throws Exception{
-        mockMvc.perform(get("/tshirts"))
+        mockMvc.perform(get("/tshirt"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -73,7 +73,7 @@ public class TShirtControllerTest {
 
         String input = mapper.writeValueAsString(tShirt);
 
-        mockMvc.perform(put("/tshirts")
+        mockMvc.perform(put("/tshirt")
                         .content(input)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -83,7 +83,7 @@ public class TShirtControllerTest {
     // Delete
     @Test
     void deleteTShirt() throws Exception{
-        mockMvc.perform(delete("/tshirts/1"))
+        mockMvc.perform(delete("/tshirt/1"))
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
@@ -91,7 +91,7 @@ public class TShirtControllerTest {
     // By Color
     @Test
     void getAllShirtsByColor() throws Exception{
-        mockMvc.perform(get("/tshirts/color/Blue"))
+        mockMvc.perform(get("/tshirt/color/Blue"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -99,7 +99,7 @@ public class TShirtControllerTest {
     // By Size
     @Test
     void getAllShirtsBySize() throws Exception{
-        mockMvc.perform(get("/tshirts/size/Small"))
+        mockMvc.perform(get("/tshirt/size/Small"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -109,7 +109,7 @@ public class TShirtControllerTest {
         TShirt tShirt1 = new TShirt();
         String inputJson = mapper.writeValueAsString(tShirt1);
         mockMvc.perform(
-                        post("/tshirts").content(inputJson)
+                        post("/tshirt").content(inputJson)
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andDo(print())
                 .andExpect(status().isUnprocessableEntity());
