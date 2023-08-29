@@ -16,12 +16,12 @@ public class TShirtController {
     TShirtRepository tShirtRepo;
 
     // Create
-    @PostMapping("/tshirts")
+    @PostMapping("/tshirt")
     @ResponseStatus(HttpStatus.CREATED)
     public TShirt addTShirt(@RequestBody @Valid TShirt tShirt){return tShirtRepo.save(tShirt);}
 
     // Read
-    @GetMapping("/tshirts/{id}")
+    @GetMapping("/tshirt/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TShirt getTShirtById(@PathVariable int id){
         Optional<TShirt> returnVal = tShirtRepo.findById(id);
@@ -32,29 +32,29 @@ public class TShirtController {
     }
 
     // Read All
-    @GetMapping("/tshirts")
+    @GetMapping("/tshirt")
     @ResponseStatus(HttpStatus.OK)
     public List<TShirt> getAllTShirts(){return tShirtRepo.findAll();}
 
     // Update
-    @PutMapping("/tshirts")
+    @PutMapping("/tshirt")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateTShirt(@RequestBody @Valid TShirt tShirt){tShirtRepo.save(tShirt);}
 
     // Delete
-    @DeleteMapping("/tshirts/{id}")
+    @DeleteMapping("/tshirt/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTShirtById(@PathVariable int id){tShirtRepo.deleteById(id);}
 
     // By Color
-    @GetMapping("/tshirts/color/{color}")
+    @GetMapping("/tshirt/color/{color}")
     @ResponseStatus(HttpStatus.OK)
     public List<TShirt> getTShirtByColor(@PathVariable String color){
        return tShirtRepo.findByColor(color);
     }
 
     // By Size
-    @GetMapping("/tshirts/size/{size}")
+    @GetMapping("/tshirt/size/{size}")
     @ResponseStatus(HttpStatus.OK)
     public List<TShirt> getTShirtBySize(@PathVariable String size){return tShirtRepo.findBySize(size);}
 
