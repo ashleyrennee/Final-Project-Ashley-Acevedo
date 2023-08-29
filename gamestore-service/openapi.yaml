@@ -3,10 +3,10 @@ info:
   title: OpenAPI definition
   version: v0
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:5000
     description: Generated server url
 paths:
-  /tshirts:
+  /tshirt:
     get:
       tags:
         - t-shirt-controller
@@ -419,7 +419,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CustomErrorResponse'
-  /tshirts/{id}:
+  /tshirt/{id}:
     get:
       tags:
         - t-shirt-controller
@@ -468,7 +468,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CustomErrorResponse'
-  /tshirts/size/{size}:
+  /tshirt/size/{size}:
     get:
       tags:
         - t-shirt-controller
@@ -496,7 +496,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CustomErrorResponse'
-  /tshirts/color/{color}:
+  /tshirt/color/{color}:
     get:
       tags:
         - t-shirt-controller
